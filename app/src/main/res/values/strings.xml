@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">登录界面</string>
+    <string name="app_name">天气预报</string>
 
     <!-- 登录界面 -->
     <string name="login_title">欢迎登录</string>
@@ -15,4 +15,29 @@
     <string name="toast_input_username">请输入用户名</string>
     <string name="toast_input_password">请输入密码</string>
     <string name="toast_login_ok">登录成功，欢迎你，%1$s</string>
+
+    <!-- 天气界面 -->
+    <string name="label_login">登录</string>
+    <string name="user_greeting">你好，%1$s</string>
+    <string name="default_user">同学</string>
+    <string name="city_name">北京</string>
+    <string name="today_title">今日天气</string>
+    <string name="forecast_title">未来 7 天预报</string>
+    <string name="today_range">最高 %1$d° / 最低 %2$d°</string>
+    <string name="label_humidity">湿度</string>
+    <string name="label_wind">风力</string>
+    <string name="label_air">空气质量</string>
+    <string name="advice_title">出行建议</string>
+    <string name="action_view_forecast">查看未来 7 天预报</string>
+    <string name="action_back_today">返回今日天气</string>
+    <string name="city_forecast_subtitle">%1$s · 未来 7 天</string>
+    <string name="today_city_line">%1$s · 今天</string>
+
+    <!-- 自定义标题栏 -->
+    <string name="action_back">返回</string>
+
+    <!-- 好友列表 -->
+    <string name="title_friends">好友列表</string>
+    <string name="friends_subtitle">好友和他们所在城市的天气</string>
+    <string name="action_view_friends">查看好友列表</string>
 </resources>

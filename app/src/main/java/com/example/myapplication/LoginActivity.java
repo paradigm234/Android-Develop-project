@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,11 +11,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.myapplication.common.Extras;
+
 /**
  * 第一个活动：登录界面。
  *
  * <p>包含用户名输入框、密码输入框，以及可选择用户头像的头像控件。
- * 登录成功后会把用户名和头像传给第二个活动（下一步实现）。
+ * 登录成功后会把用户名和头像传给第二个活动（今日天气）。
  */
 public class LoginActivity extends Activity {
 
@@ -104,8 +107,11 @@ public class LoginActivity extends Activity {
             return;
         }
 
-        // 下一步：跳转到第二个活动，并把 username 和 selectedAvatarRes 传过去。
-        toast(getString(R.string.toast_login_ok, username));
+        // 跳转到今日天气界面，并把用户名和头像一起传过去。
+        Intent intent = new Intent(this, WeatherActivity.class);
+        intent.putExtra(Extras.USERNAME, username);
+        intent.putExtra(Extras.AVATAR_RES, selectedAvatarRes);
+        startActivity(intent);
     }
 
     private void toast(String message) {

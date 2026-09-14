@@ -6,6 +6,10 @@
     <color name="text_secondary">#FF8A90A2</color>
     <color name="input_bg">#FFFFFFFF</color>
     <color name="input_stroke">#FFE3E7F0</color>
+    <color name="card_bg">#FFFFFFFF</color>
+    <color name="divider">#FFEDF0F6</color>
+    <color name="icon_cloud">#FF9FB0C9</color>
+    <color name="icon_cloud_dark">#FF8794AB</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
