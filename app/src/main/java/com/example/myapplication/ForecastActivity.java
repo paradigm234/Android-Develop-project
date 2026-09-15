@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.example.myapplication.adapter.ForecastAdapter;
 import com.example.myapplication.common.Extras;
 import com.example.myapplication.data.WeatherRepository;
+import com.example.myapplication.model.WeatherNow;
 import com.example.myapplication.widget.TitleBar;
 
 /**
@@ -23,7 +24,8 @@ public class ForecastActivity extends Activity {
         showUserInfo();
 
         ListView listView = findViewById(R.id.lvForecast);
-        listView.setAdapter(new ForecastAdapter(this, WeatherRepository.getWeeklyForecast()));
+        listView.setAdapter(new ForecastAdapter(this,
+                new WeatherRepository(this).getWeeklyForecast()));
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
     }
@@ -39,6 +41,11 @@ public class ForecastActivity extends Activity {
                 getIntent().getIntExtra(Extras.AVATAR_RES, R.drawable.avatar_1));
 
         ((TextView) findViewById(R.id.tvSubtitle))
-                .setText(getString(R.string.city_forecast_subtitle, getString(R.string.city_name)));
+                .setText(getString(R.string.city_forecast_subtitle, cityOfRepository()));
+    }
+
+    private String cityOfRepository() {
+        WeatherNow now = new WeatherRepository(this).getNow();
+        return now == null ? getString(R.string.city_name) : now.getCity();
     }
 }

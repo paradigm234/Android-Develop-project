@@ -9,9 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.data.WeatherRepository;
+import com.example.myapplication.common.WeatherIcons;
 import com.example.myapplication.model.Friend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,11 +21,18 @@ import java.util.List;
 public class FriendAdapter extends BaseAdapter {
 
     private final Context context;
-    private final List<Friend> data;
+    private final List<Friend> data = new ArrayList<>();
 
     public FriendAdapter(Context context, List<Friend> data) {
         this.context = context;
-        this.data = data;
+        this.data.addAll(data);
+    }
+
+    /** 数据库里的好友变化后，刷新列表。 */
+    public void setFriends(List<Friend> friends) {
+        data.clear();
+        data.addAll(friends);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -63,7 +71,7 @@ public class FriendAdapter extends BaseAdapter {
         holder.ivAvatar.setImageResource(friend.getAvatarRes());
         holder.tvName.setText(friend.getName());
         holder.tvCity.setText(friend.getCity());
-        holder.ivIcon.setImageResource(WeatherRepository.iconOf(friend.getCondition()));
+        holder.ivIcon.setImageResource(WeatherIcons.iconOf(friend.getCondition()));
         holder.tvCondition.setText(friend.getCondition());
         holder.tvTemp.setText(friend.getTemp() + "°");
         return convertView;

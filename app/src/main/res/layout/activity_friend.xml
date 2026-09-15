@@ -15,14 +15,39 @@
         app:tbShowBack="true"
         app:tbTitle="@string/title_friends" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:text="@string/friends_subtitle"
-        android:textColor="@color/text_secondary"
-        android:textSize="14sp" />
+        android:layout_marginEnd="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/friends_subtitle"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <!-- 增：添加好友 -->
+        <TextView
+            android:id="@+id/btnAddFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_button"
+            android:backgroundTint="@color/brand"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:text="@string/action_add_friend"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <!-- 好友列表：ListView -->
     <ListView

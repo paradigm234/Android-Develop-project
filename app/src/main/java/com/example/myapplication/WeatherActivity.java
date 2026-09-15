@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.myapplication.common.Extras;
 import com.example.myapplication.data.WeatherRepository;
 import com.example.myapplication.model.WeatherDay;
+import com.example.myapplication.model.WeatherNow;
 import com.example.myapplication.widget.TitleBar;
 
 /**
@@ -18,10 +19,13 @@ import com.example.myapplication.widget.TitleBar;
  */
 public class WeatherActivity extends Activity {
 
+    private WeatherRepository repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
+        repository = new WeatherRepository(this);
 
         showUserInfo();
         showTodayWeather();
@@ -41,30 +45,33 @@ public class WeatherActivity extends Activity {
         TitleBar titleBar = findViewById(R.id.titleBar);
         titleBar.setUserInfo(username,
                 getIntent().getIntExtra(Extras.AVATAR_RES, R.drawable.avatar_1));
-
-        ((TextView) findViewById(R.id.tvCity))
-                .setText(getString(R.string.today_city_line, getString(R.string.city_name)));
     }
 
-    /** 今日天气卡片。 */
+    /** 今日天气卡片，数据全部来自数据库。 */
     private void showTodayWeather() {
-        WeatherDay today = WeatherRepository.getToday();
+        WeatherNow now = repository.getNow();
+        if (now != null) {
+            ((TextView) findViewById(R.id.tvCity))
+                    .setText(getString(R.string.today_city_line, now.getCity()));
+            ((TextView) findViewById(R.id.tvTodayTemp)).setText(now.getTemp() + "°");
+            ((TextView) findViewById(R.id.tvHumidity)).setText(now.getHumidity());
+            ((TextView) findViewById(R.id.tvWind)).setText(now.getWind());
+            ((TextView) findViewById(R.id.tvAirQuality)).setText(now.getAir());
+        }
 
-        ((ImageView) findViewById(R.id.ivTodayIcon)).setImageResource(today.getIconRes());
-        ((TextView) findViewById(R.id.tvTodayTemp))
-                .setText(WeatherRepository.getCurrentTemp() + "°");
-        ((TextView) findViewById(R.id.tvTodayCondition)).setText(today.getCondition());
-        ((TextView) findViewById(R.id.tvTodayRange))
-                .setText(getString(R.string.today_range, today.getHigh(), today.getLow()));
-        ((TextView) findViewById(R.id.tvHumidity)).setText(WeatherRepository.getHumidity());
-        ((TextView) findViewById(R.id.tvWind)).setText(WeatherRepository.getWind());
-        ((TextView) findViewById(R.id.tvAirQuality)).setText(WeatherRepository.getAirQuality());
+        WeatherDay today = repository.getToday();
+        if (today != null) {
+            ((ImageView) findViewById(R.id.ivTodayIcon)).setImageResource(today.getIconRes());
+            ((TextView) findViewById(R.id.tvTodayCondition)).setText(today.getCondition());
+            ((TextView) findViewById(R.id.tvTodayRange))
+                    .setText(getString(R.string.today_range, today.getHigh(), today.getLow()));
+        }
     }
 
     /** 出行建议：按数据动态生成文字，塞进卡片里。 */
     private void showTravelAdvice() {
         LinearLayout container = findViewById(R.id.llAdvice);
-        for (String line : WeatherRepository.getTravelAdvice()) {
+        for (String line : repository.getTravelAdvice()) {
             container.addView(createAdviceView(line));
         }
     }

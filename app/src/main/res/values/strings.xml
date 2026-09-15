@@ -40,4 +40,25 @@
     <string name="title_friends">好友列表</string>
     <string name="friends_subtitle">好友和他们所在城市的天气</string>
     <string name="action_view_friends">查看好友列表</string>
+
+    <!-- 好友增删改 -->
+    <string name="action_add_friend">＋ 添加</string>
+    <string name="action_edit_friend">修改资料</string>
+    <string name="action_delete_friend">删除好友</string>
+    <string name="action_save">保存</string>
+    <string name="action_delete">删除</string>
+    <string name="dialog_add_friend">添加好友</string>
+    <string name="dialog_edit_friend">修改好友资料</string>
+    <string name="dialog_delete_friend">确定删除好友「%1$s」吗？</string>
+    <string name="hint_friend_name">好友姓名</string>
+    <string name="hint_friend_city">所在城市</string>
+    <string name="toast_friend_empty">姓名和城市都不能为空</string>
+    <string name="toast_friend_added">已添加好友</string>
+    <string name="toast_friend_updated">已修改好友资料</string>
+    <string name="toast_friend_deleted">已删除好友</string>
+
+    <!-- 登录相关 -->
+    <string name="toast_register_ok">注册成功，已自动登录</string>
+    <string name="toast_welcome_back">欢迎回来，%1$s</string>
+    <string name="toast_password_wrong">密码不正确，请重新输入</string>
 </resources>

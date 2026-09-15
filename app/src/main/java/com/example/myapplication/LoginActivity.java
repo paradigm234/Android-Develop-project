@@ -11,7 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.myapplication.common.AvatarUtils;
 import com.example.myapplication.common.Extras;
+import com.example.myapplication.data.UserDao;
+import com.example.myapplication.model.User;
 
 /**
  * 第一个活动：登录界面。
@@ -105,6 +108,22 @@ public class LoginActivity extends Activity {
             etPassword.requestFocus();
             toast(getString(R.string.toast_input_password));
             return;
+        }
+
+        // 用户数据存在数据库里：先查，没有再注册。
+        UserDao userDao = new UserDao(this);
+        User user = userDao.findByUsername(username);
+        if (user == null) {
+            userDao.insert(new User(username, password, AvatarUtils.indexOf(selectedAvatarRes)));
+            toast(getString(R.string.toast_register_ok));
+        } else if (!password.equals(user.getPassword())) {
+            etPassword.requestFocus();
+            toast(getString(R.string.toast_password_wrong));
+            return;
+        } else {
+            // 老用户：把这次选的头像更新进数据库
+            userDao.updateAvatar(user.getId(), AvatarUtils.indexOf(selectedAvatarRes));
+            toast(getString(R.string.toast_welcome_back, username));
         }
 
         // 跳转到今日天气界面，并把用户名和头像一起传过去。
