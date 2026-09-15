@@ -23,7 +23,7 @@ public final class WeatherIcons {
         if (condition.contains("雨")) {
             return R.drawable.ic_weather_rain;
         }
-        if (condition.contains("阴")) {
+        if (condition.contains("阴") || condition.contains("雾")) {
             return R.drawable.ic_weather_overcast;
         }
         if (condition.contains("云")) {

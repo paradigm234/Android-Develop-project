@@ -1,14 +1,19 @@
 package com.example.myapplication.data;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.example.myapplication.model.Friend;
 import com.example.myapplication.model.WeatherDay;
 import com.example.myapplication.model.WeatherNow;
+import com.example.myapplication.net.WeatherApiClient;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 业务数据入口。
@@ -17,6 +22,10 @@ import java.util.List;
  * 数据来源全部是 SQLite。
  */
 public class WeatherRepository {
+
+    /** 联网放在后台线程，避免卡住界面。 */
+    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
+    private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
 
     private final WeatherDao weatherDao;
     private final FriendDao friendDao;
@@ -41,6 +50,53 @@ public class WeatherRepository {
 
     public List<Friend> getFriends() {
         return friendDao.getAll();
+    }
+
+    /** 联网刷新的回调。 */
+    public interface RefreshCallback {
+        void onSuccess(String city);
+
+        void onFailure(String message);
+    }
+
+    /**
+     * 联网获取真实天气：后台请求接口 -> 写入数据库 -> 回主线程通知界面。
+     *
+     * <p>界面本身仍然只读数据库，联网只是负责把数据库刷新成最新数据。
+     */
+    public void refreshFromNetwork(String cityName, RefreshCallback callback) {
+        EXECUTOR.execute(() -> {
+            try {
+                WeatherApiClient.Place place = WeatherApiClient.geocode(cityName);
+                if (place == null) {
+                    String message = "没有找到城市：" + cityName;
+                    MAIN_HANDLER.post(() -> callback.onFailure(message));
+                    return;
+                }
+
+                WeatherApiClient.Result result =
+                        WeatherApiClient.fetch(place.latitude, place.longitude, place.name);
+
+                weatherDao.saveNow(new WeatherNow(result.city, result.temp,
+                        result.humidity, result.wind, result.air));
+
+                int size = result.days.size();
+                String[] conditions = new String[size];
+                int[] highs = new int[size];
+                int[] lows = new int[size];
+                for (int i = 0; i < size; i++) {
+                    conditions[i] = result.days.get(i).condition;
+                    highs[i] = result.days.get(i).high;
+                    lows[i] = result.days.get(i).low;
+                }
+                weatherDao.saveForecast(conditions, highs, lows);
+
+                MAIN_HANDLER.post(() -> callback.onSuccess(result.city));
+            } catch (Exception e) {
+                String message = e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage();
+                MAIN_HANDLER.post(() -> callback.onFailure(message));
+            }
+        });
     }
 
     /** 根据今天的天气生成出行建议。 */

@@ -1,7 +1,9 @@
 package com.example.myapplication.data;
 
 import android.content.Context;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.example.myapplication.common.WeatherIcons;
 import com.example.myapplication.model.WeatherDay;
@@ -79,5 +81,37 @@ public class WeatherDao {
         } finally {
             cursor.close();
         }
+    }
+
+    /** 写：把联网取到的 7 天预报覆盖进数据库。 */
+    public void saveForecast(String[] conditions, int[] highs, int[] lows) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            db.delete(AppDatabaseHelper.TABLE_WEATHER_DAY, null, null);
+            for (int i = 0; i < conditions.length; i++) {
+                ContentValues values = new ContentValues();
+                values.put("day_offset", i);
+                values.put("condition", conditions[i]);
+                values.put("high", highs[i]);
+                values.put("low", lows[i]);
+                db.insert(AppDatabaseHelper.TABLE_WEATHER_DAY, null, values);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    /** 写：把联网取到的实时天气覆盖进数据库（固定 id = 1）。 */
+    public void saveNow(WeatherNow now) {
+        ContentValues values = new ContentValues();
+        values.put("id", 1);
+        values.put("city", now.getCity());
+        values.put("temp", now.getTemp());
+        values.put("humidity", now.getHumidity());
+        values.put("wind", now.getWind());
+        values.put("air", now.getAir());
+        helper.getWritableDatabase().replace(AppDatabaseHelper.TABLE_WEATHER_NOW, null, values);
     }
 }

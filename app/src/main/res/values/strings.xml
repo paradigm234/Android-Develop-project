@@ -61,4 +61,14 @@
     <string name="toast_register_ok">注册成功，已自动登录</string>
     <string name="toast_welcome_back">欢迎回来，%1$s</string>
     <string name="toast_password_wrong">密码不正确，请重新输入</string>
+
+    <!-- 联网刷新 -->
+    <string name="action_refresh">刷新</string>
+    <string name="action_refreshing">刷新中…</string>
+    <string name="action_confirm">确定</string>
+    <string name="dialog_switch_city">切换城市</string>
+    <string name="hint_input_city">城市名称，例如：北京</string>
+    <string name="weather_source_hint">数据来源 Open-Meteo · 点城市名可切换</string>
+    <string name="toast_refresh_ok">%1$s 天气已更新</string>
+    <string name="toast_refresh_failed">联网失败：%1$s</string>
 </resources>
