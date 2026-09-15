@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,8 +62,23 @@ public class FriendActivity extends Activity {
             return true;
         });
 
+        // 单击 -> 进入聊天
+        listView.setOnItemClickListener((parent, view, position, id) -> openChat(adapter.getItem(position)));
+
         // 增
         findViewById(R.id.btnAddFriend).setOnClickListener(v -> showFriendDialog(null));
+    }
+
+    /** 进入和这位好友的聊天界面。 */
+    private void openChat(Friend friend) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra(Extras.FRIEND_ID, friend.getId());
+        intent.putExtra(Extras.FRIEND_NAME, friend.getName());
+        intent.putExtra(Extras.FRIEND_AVATAR_RES, friend.getAvatarRes());
+        intent.putExtra(Extras.USERNAME, getIntent().getStringExtra(Extras.USERNAME));
+        intent.putExtra(Extras.AVATAR_RES,
+                getIntent().getIntExtra(Extras.AVATAR_RES, R.drawable.avatar_1));
+        startActivity(intent);
     }
 
     private void showFriendOptions(Friend friend) {

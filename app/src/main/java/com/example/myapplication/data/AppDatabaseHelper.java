@@ -25,12 +25,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class AppDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "weather_app.db";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
 
     public static final String TABLE_USER = "t_user";
     public static final String TABLE_FRIEND = "t_friend";
     public static final String TABLE_WEATHER_DAY = "t_weather_day";
     public static final String TABLE_WEATHER_NOW = "t_weather_now";
+    public static final String TABLE_MESSAGE = "t_message";
 
     private static AppDatabaseHelper instance;
 
@@ -77,17 +78,26 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
                 + "wind TEXT,"
                 + "air TEXT)");
 
+        createMessageTable(db);
         seedInitialData(db);
+    }
+
+    /** 聊天消息表，数据库版本 2 新增。 */
+    private void createMessageTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGE + " ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "friend_id INTEGER NOT NULL,"
+                + "content TEXT NOT NULL,"
+                + "from_me INTEGER NOT NULL,"
+                + "time INTEGER NOT NULL)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // 课程项目里的简单做法：直接重建
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FRIEND);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WEATHER_DAY);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WEATHER_NOW);
-        onCreate(db);
+        // 版本 1 -> 2：只新增聊天消息表，已有的用户/好友/天气数据全部保留
+        if (oldVersion < 2) {
+            createMessageTable(db);
+        }
     }
 
     /** 首次建库时写入初始数据。 */

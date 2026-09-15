@@ -92,6 +92,18 @@ public class FriendDao {
         }
     }
 
+    /** 查：按 id 查询单个好友。 */
+    public Friend findById(long friendId) {
+        Cursor cursor = helper.getReadableDatabase().query(
+                AppDatabaseHelper.TABLE_FRIEND, null,
+                "id = ?", new String[]{String.valueOf(friendId)}, null, null, null);
+        try {
+            return cursor.moveToFirst() ? read(cursor) : null;
+        } finally {
+            cursor.close();
+        }
+    }
+
     private Friend read(Cursor cursor) {
         return new Friend(
                 cursor.getLong(cursor.getColumnIndexOrThrow("id")),

@@ -45,6 +45,13 @@
             android:exported="false"
             android:label="@string/title_friends"
             android:theme="@style/Theme.MyApplication" />
+
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false"
+            android:label="@string/title_chat"
+            android:theme="@style/Theme.MyApplication"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

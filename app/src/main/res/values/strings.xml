@@ -71,4 +71,15 @@
     <string name="weather_source_hint">数据来源 Open-Meteo · 点城市名可切换</string>
     <string name="toast_refresh_ok">%1$s 天气已更新</string>
     <string name="toast_refresh_failed">联网失败：%1$s</string>
+
+    <!-- 聊天 -->
+    <string name="title_chat">聊天</string>
+    <string name="chat_empty">还没有聊天记录，发条消息打个招呼吧</string>
+    <string name="hint_message">说点什么…</string>
+    <string name="action_send">发送</string>
+    <string name="action_delete_message">删除这条消息</string>
+    <string name="action_clear_chat">清空聊天记录</string>
+    <string name="toast_empty_message">消息不能为空</string>
+    <string name="toast_message_deleted">已删除这条消息</string>
+    <string name="toast_chat_cleared">聊天记录已清空</string>
 </resources>
