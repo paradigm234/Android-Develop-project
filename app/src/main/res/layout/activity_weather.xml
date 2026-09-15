@@ -277,6 +277,19 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
 
+        <!-- 数据统计入口（用自定义控件画图） -->
+        <Button
+            android:id="@+id/btnChart"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/btn_chart_outline"
+            android:backgroundTint="@null"
+            android:text="@string/action_view_chart"
+            android:textAllCaps="false"
+            android:textColor="@color/brand"
+            android:textSize="16sp" />
+
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -39,6 +39,8 @@ public class WeatherActivity extends Activity {
         findViewById(R.id.btnForecast).setOnClickListener(v -> openForecast());
         findViewById(R.id.btnFriends)
                 .setOnClickListener(v -> startActivity(intentWithUser(FriendActivity.class)));
+        findViewById(R.id.btnChart)
+                .setOnClickListener(v -> startActivity(intentWithUser(ChartActivity.class)));
         findViewById(R.id.btnRefresh).setOnClickListener(v -> refreshWeather(currentCity()));
         findViewById(R.id.tvCity).setOnClickListener(v -> showCityDialog());
 

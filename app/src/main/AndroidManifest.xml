@@ -52,6 +52,12 @@
             android:label="@string/title_chat"
             android:theme="@style/Theme.MyApplication"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ChartActivity"
+            android:exported="false"
+            android:label="@string/title_chart"
+            android:theme="@style/Theme.MyApplication" />
     </application>
 
 </manifest>

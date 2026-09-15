@@ -82,4 +82,15 @@
     <string name="toast_empty_message">消息不能为空</string>
     <string name="toast_message_deleted">已删除这条消息</string>
     <string name="toast_chat_cleared">聊天记录已清空</string>
+
+    <!-- 数据统计（画图） -->
+    <string name="title_chart">数据统计</string>
+    <string name="chart_temp_title">未来 7 天温度趋势</string>
+    <string name="chart_message_title">和好友的聊天条数</string>
+    <string name="chart_data_source">以上图表由自定义控件 BarChartView 绘制，数据全部来自 SQLite 数据库。</string>
+    <string name="chart_legend_high">最高温</string>
+    <string name="chart_legend_low">最低温</string>
+    <string name="chart_legend_count">消息条数</string>
+    <string name="chart_summary">数据库里共有 %1$d 条聊天记录；未来 7 天最高温 %2$d° 出现在%3$s。</string>
+    <string name="action_view_chart">查看数据统计</string>
 </resources>
